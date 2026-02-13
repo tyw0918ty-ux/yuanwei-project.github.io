@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Eating in Manchester</title>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-glgeocoder/v5.1.0/mapbox-gl-geocoder.css'><link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <html lang='en'>
+
+<head>
+  <meta charset='utf-8' />
+  <meta name='viewport' content='width=device-width, initial-scale=1' />
+  <!-- Mapbox JS API !-->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.js"></script>
+  <!-- Mapbox CSS!-->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.18.1/mapbox-gl.css" rel="stylesheet">
+  <!-- Google Font!-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">   
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>   
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lusitana:wght@400;700&display=swap" rel="stylesheet">
+</head>
+  
+<body>
+<!-- Load the `mapbox-gl-geocoder` plugin. -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.1.0/mapbox-gl-geocoder.css" type="text/css">
+  <div id='map'></div>
+    <div id='map-overlay'>
+      <h1>Eating in Manchester</h1>
+      
+     <!-- Radio buttons go below-->
+      <h2>Filter by Type</h2>
+      <div class='type-selector' id='filters'>        
+        <input id='all' type='radio' name='toggle' value='all' checked='checked'>
+        <label for='all'>All <span class="count" id="count-all">572</span></label>
+
+        <input id='cafe' type='radio' name='toggle' value='cafe'>
+        <label for='cafe'>Cafe <span class="count" id="count-cafe">121</span></label>
+
+        <input id='fast_food' type='radio' name='toggle' value='fast_food'>
+        <label for='fast_food'>Fast food <span class="count" id="count-fast_food">137</span></label>
+
+        <input id='pub' type='radio' name='toggle' value='pub'>
+        <label for='pub'>Pub <span class="count" id="count-pub">78</span></label>
+        
+        <input id='restaurant' type='radio' name='toggle' value='restaurant'>
+        <label for='restaurant'>Restaurant <span class="count" id="count-restaurant">236</span></label>
+
+      </div>
+      
+      <!--explore more!-->
+      <p class="explore-more">
+    Click <a href="https://www.visitmanchester.com/food-and-drink/" target="_blank">here</a> to explore more food in Manchester
+</p>
+      
+      <!--map guide!-->
+      <button id="about-btn">Map Guide</button>
+      <div id="about-modal" class="modal">
+          <div class="modal-content">
+              <span class="close-btn">&times;</span>
+              <div class="tab-container">
+                  <button class="tab-link active" onclick="openTab(event, 'Instructions')">Instructions</button>
+                  <button class="tab-link" onclick="openTab(event, 'About')">About</button>
+                  <button class="tab-link" onclick="openTab(event, 'Data')">Data Sources</button>
+              </div>
+              <div id="Instructions" class="tab-content" style="display:block;">
+                  <h2>How to Use</h2>
+                  <ul>
+                      <li><strong>Filter:</strong> Use the category checkboxes to toggle between different food types.</li>
+                      <li><strong>Search:</strong> Hover over the 🔍 icon to search by name or street.</li>                     
+                      <li><strong>Explore:</strong> Click on any food icon to automatically fly to and center on the exact address. This action will also slide out the Information Sidebar, providing details like cuisine, full address, and opening hours.</li>
+                      <li><strong>Google Maps:</strong> Click the "Open in Google Maps" block at the bottom of the sidebar for photos，ratings and reviews.</li>
+                      <li><strong>Interact:</strong> <strong>Hover over a food icon</strong> to see the venue name and type.
+                      <ul style="list-style-type: circle; padding-left: 20px; margin-top: 5px;">
+                          <li>Click <strong>"❤️ Wish"</strong> to save a spot you want to try.</li>
+                          <li>Click <strong>"✅ Visit"</strong> to mark places you have already explored.</li>
+                      </ul>
+                  </li>
+                  <li><strong>Manage:</strong> Click the <strong>right-hand 📁 icon</strong> to track your "Wishlist" and "Visited" history.</li>
+                  </ul>
+              </div>
+              <div id="About" class="tab-content">
+                  <h2>About</h2>
+                  <p>This interactive platform visualizes the spatial distribution and diversity of dining venues across <strong>Manchester City Centre</strong>. By mapping restaurants, cafés, fast food and pubs, the project reveals the unique character of Manchester's culinary landscape.</p>
+<p><strong>Scope & Accuracy:</strong> To maintain analytical precision, this dataset is strictly limited to venues within the defined city centre boundary. While it provides a detailed overview of urban dining patterns, it serves as an <strong>exploratory visualization</strong> rather than an exhaustive inventory. As the data is sourced from OpenStreetMap's volunteer community, users may notice variations in data completeness or attribute details for certain locations.</p>
+<p><strong>Key Features:</strong> Beyond simple visualization, this map empowers users to: <ul> <li><strong>Personalize Exploration:</strong> Utilize the integrated <strong>Wishlist</strong> and <strong>Visited</strong> systems to curate a private guide of Manchester’s food scene.</li> <li><strong>Bridge Data:</strong> Seamlessly transition from geographic data to real-world experience via direct <strong>Google Maps</strong> integration for photos and community reviews.</li> </ul> </p>
+              </div>
+              <div id="Data" class="tab-content">
+                  <h2>Data Sources</h2>
+                  The data is sourced from <strong>OpenStreetMap (OSM)</strong> (<a href="https://overpass-turbo.eu/s/2kl5" target="_blank" style="color: #007bff; text-decoration: underline;">download</a>) and represent publicly available, volunteered geographic information.
+              </div>
+           </div>
+       </div>
+   </div>
+   
+ <!--fav list!-->
+ <div id="favorites-control">
+    <div class="fav-icon-box">
+      <span id="fav-icon" style="font-size: 16px; vertical-align: middle; position: relative; top:-1px;">📁</span>
+    </div>
+
+    <div class="fav-dropdown">
+        <div class="user-tab-header">
+            <button id="tab-fav" class="user-tab-btn active" onclick="switchUserTab('favs')">❤️ Wishlist</button>
+            <button id="tab-visit" class="user-tab-btn" onclick="switchUserTab('visited')">✅ Visited</button>
+        </div>
+      <div id="favorites-list">
+            <p style="color: #ccc; text-align: center; font-size: 12px;">No items saved yet.</p>
+        </div>
+    </div>
+</div>
+  
+  <!--sidebar!-->
+  <div id="restaurant-detail-panel" class="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+    <div id="side-info" class="sidebar-content"></div>
+</div>
+</div>
+</body>
+</html>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-glgeocoder/v5.1.0/mapbox-gl-geocoder.min.js'></script><script  src="./script.js"></script>
+
+  </body>
+  
+</html>
